@@ -1,38 +1,31 @@
 <!doctype html>
-<html lang="en">
-<head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Bacoor Heritage Virtual Tour</title>
 <style>
-*{box-sizing:border-box}html,body{margin:0;height:100%;font-family:system-ui,-apple-system,Segoe UI,sans-serif;background:#07131d;color:white;overflow:hidden}
-.scene{height:100dvh;position:relative;background:linear-gradient(120deg,#07131dcc,#07131d55),url('https://images.unsplash.com/photo-1552465011-b4e21bf6e79a?auto=format&fit=crop&w=1800&q=85') center/cover;transition:.7s}
-.scene:after{content:"";position:absolute;inset:0;background:linear-gradient(transparent 45%,#061019e8)}
-.top{position:absolute;z-index:2;top:max(20px,env(safe-area-inset-top));left:22px;right:22px;display:flex;justify-content:space-between;align-items:center}
-.brand{font-weight:800;letter-spacing:.12em;font-size:13px}.count{font-size:13px;opacity:.8}
-.copy{position:absolute;z-index:2;left:24px;right:24px;bottom:130px;max-width:720px}
-.eyebrow{font-size:12px;letter-spacing:.2em;color:#f1cf7a;font-weight:800}.copy h1{font-family:Georgia,serif;font-size:clamp(38px,8vw,76px);line-height:.95;margin:10px 0}.copy p{font-size:15px;line-height:1.55;max-width:560px;color:#e8edf1}
-.controls{position:absolute;z-index:3;bottom:max(24px,env(safe-area-inset-bottom));left:20px;right:20px;display:flex;gap:10px}
-button{border:1px solid #ffffff45;background:#0a1824cc;color:white;border-radius:999px;min-height:54px;padding:0 20px;font-weight:800;font-size:15px;backdrop-filter:blur(12px)}
-button.primary{background:#f1cf7a;color:#10202a;border:0;flex:1}.dots{position:absolute;z-index:3;right:22px;top:50%;display:grid;gap:10px}
-.dot{width:9px;height:9px;border:1px solid white;border-radius:50%;opacity:.5}.dot.on{background:#f1cf7a;border-color:#f1cf7a;opacity:1;transform:scale(1.3)}
-.hint{position:absolute;z-index:2;bottom:94px;right:24px;font-size:11px;opacity:.65}
-</style></head>
-<body>
-<main class="scene" id="scene">
- <div class="top"><div class="brand">BACOOR • CAVITE</div><div class="count" id="count"></div></div>
- <div class="copy"><div class="eyebrow">HERITAGE VIRTUAL TOUR</div><h1 id="title"></h1><p id="text"></p></div>
- <div class="dots" id="dots"></div><div class="hint">Swipe or tap Next</div>
- <div class="controls"><button onclick="prev()">←</button><button class="primary" onclick="next()">NEXT STOP →</button></div>
-</main>
+*{box-sizing:border-box}html,body{margin:0;height:100%;font-family:system-ui,-apple-system,Segoe UI,sans-serif;background:#07131d;color:#fff;overflow:hidden}
+.scene{height:100dvh;position:relative;background-position:center;background-size:cover;transition:background-image .55s ease}
+.scene:before{content:"";position:absolute;inset:0;background:linear-gradient(100deg,#06121db8,#06121d22 60%),linear-gradient(transparent 42%,#061019e8);z-index:1}
+.top{position:absolute;z-index:3;top:max(20px,env(safe-area-inset-top));left:22px;right:22px;display:flex;justify-content:space-between}.brand{font-weight:850;letter-spacing:.13em;font-size:13px}.count{font-size:13px}
+.copy{position:absolute;z-index:3;left:24px;right:24px;bottom:130px;max-width:760px}.eyebrow{font-size:12px;letter-spacing:.2em;color:#f1cf7a;font-weight:800}.copy h1{font-family:Georgia,serif;font-size:clamp(38px,8vw,76px);line-height:.95;margin:10px 0}.copy p{font-size:15px;line-height:1.55;max-width:590px;color:#eef2f4}
+.controls{position:absolute;z-index:4;bottom:max(24px,env(safe-area-inset-bottom));left:20px;right:20px;display:flex;gap:10px}
+button{border:1px solid #ffffff55;background:#0a1824cc;color:white;border-radius:999px;min-height:54px;padding:0 20px;font-weight:800;font-size:15px;backdrop-filter:blur(12px)}button.primary{background:#f1cf7a;color:#10202a;border:0;flex:1}
+.dots{position:absolute;z-index:4;right:22px;top:45%;display:grid;gap:11px}.dot{width:9px;height:9px;border:1px solid #fff;border-radius:50%;opacity:.55}.dot.on{background:#f1cf7a;border-color:#f1cf7a;opacity:1;transform:scale(1.35)}
+.credit{position:absolute;z-index:3;left:24px;bottom:102px;font-size:10px;color:#ffffffb5}.credit a{color:inherit}.hint{position:absolute;z-index:3;right:24px;bottom:102px;font-size:11px;opacity:.7}
+</style></head><body>
+<main class="scene" id="scene"><div class="top"><div class="brand">BACOOR • CAVITE</div><div class="count" id="count"></div></div>
+<div class="copy"><div class="eyebrow">HERITAGE VIRTUAL TOUR</div><h1 id="title"></h1><p id="desc"></p></div>
+<div class="credit" id="credit"></div><div class="hint">Swipe or tap Next</div><div class="dots" id="dots"></div>
+<div class="controls"><button onclick="prev()">←</button><button class="primary" onclick="next()">NEXT STOP →</button></div></main>
 <script>
+const C="https://commons.wikimedia.org/wiki/Special:Redirect/file/";
 const stops=[
-["St. Michael the Archangel Parish","Begin in the historic heart of Bacoor. Explore the place, its story, and the community that grew around it."],
-["Bahay na Tisa","Step toward one of Bacoor’s remembered heritage spaces and discover stories carried through generations."],
-["Zapote Bridge","Enter a gateway marked by history, movement, and the long connection between Cavite and Metro Manila."],
-["Padre Gomes Plaza","Meet Bacoor’s civic memory through the story of Padre Mariano Gomes and the places that preserve local identity."],
-["Molino Dam","Finish the journey where Bacoor’s landscape, waterways, communities, and changing city meet."]
+{t:"St. Michael the Archangel Parish",d:"Begin in Bacoor’s historic center at the Parish of Saint Michael the Archangel.",img:C+"BacoorChurchjf0207 01.JPG?width=1800",src:"BacoorChurchjf0207 01.JPG"},
+{t:"Bahay na Tisa",d:"See the Cuenca Ancestral House, a Bacoor heritage structure associated with the Philippine Revolutionary Government.",img:C+"Cuenca Ancestral House north entrance and historical marker.jpg?width=1800",src:"Cuenca Ancestral House north entrance and historical marker.jpg"},
+{t:"Zapote Bridge",d:"Stand at the historic Zapote Bridge and battlefield, witness to major battles in 1897 and 1899.",img:C+"Zapote Bridge (Bacoor, Cavite; 09-19-2021).jpg?width=1800",src:"Zapote Bridge (Bacoor, Cavite; 09-19-2021).jpg"},
+{t:"Plaza de Padre Mariano Gomes",d:"Visit Bacoor’s town plaza and the memorial to Padre Mariano Gomes.",img:C+"Plaza de Padre Mariano Gomes, Bacoor, Cavite, Aug 2025.jpg?width=1800",src:"Plaza de Padre Mariano Gomes, Bacoor, Cavite, Aug 2025.jpg"},
+{t:"Molino Dam",d:"Finish at the historic Molino Dam, an important part of Bacoor’s water and irrigation heritage.",img:C+"Molino Dam - 2.jpg?width=1800",src:"Molino Dam - 2.jpg"}
 ];let i=0,x=0;
-function render(){title.textContent=stops[i][0];text.textContent=stops[i][1];count.textContent=(i+1)+" / "+stops.length;dots.innerHTML=stops.map((_,j)=>'<span class="dot '+(j===i?'on':'')+'"></span>').join('');}
+function render(){const s=stops[i];scene.style.backgroundImage='url("'+encodeURI(s.img)+'")';title.textContent=s.t;desc.textContent=s.d;count.textContent=(i+1)+" / "+stops.length;credit.innerHTML='Real landmark photo • <a target="_blank" rel="noopener" href="'+encodeURI("https://commons.wikimedia.org/wiki/File:"+s.src)+'">Wikimedia Commons</a>';dots.innerHTML=stops.map((_,j)=>'<span class="dot '+(j===i?'on':'')+'"></span>').join("")}
 function next(){i=(i+1)%stops.length;render()}function prev(){i=(i-1+stops.length)%stops.length;render()}
 scene.addEventListener("touchstart",e=>x=e.touches[0].clientX,{passive:true});scene.addEventListener("touchend",e=>{let d=e.changedTouches[0].clientX-x;if(Math.abs(d)>50)d<0?next():prev()},{passive:true});render();
 </script></body></html>
